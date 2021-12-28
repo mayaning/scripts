@@ -1,0 +1,16 @@
+{
+    "packages":["net-tools", "telnet", "python",  "fcitx", "fcitx-table-wbpy", 
+		"terminator", "thunderbird", "shutter", "wireshark",  "wireshark", 
+		"clang","cmake", "golang", "trash-cli", "pwgen", "gnome-tweak-tool",
+		"sshuttle", "git", "ctags", "cscope", "python-dev", "python3-dev",
+        "network-manager-openconnect-gnome", "mono-xbuild", "openssh-server"],
+    "static_domains":{"jira.fipbj.certusnet.com":"172.17.5.253", 
+                     "confluence.fipbj.certusnet.com":"172.17.5.249",
+                     "jira.fipnj.certusnet.com":"172.16.66.198",
+                     "gerrit.fipnj.certusnet.com":"172.16.164.211",
+                     "bpm.certusnet.com":"172.17.2.197",
+                     "gerrit.fipbj":"172.17.5.234",
+                     "gerrit.bfxm":"180.76.184.132",
+                     "openstack.fipbj":"172.17.5.237" 
+                    } 
+}

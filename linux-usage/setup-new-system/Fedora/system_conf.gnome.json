@@ -1,0 +1,18 @@
+{
+    "rpm_depends_groups":[
+        "C Development Tools and Libraries", "Development Tools", "LibreOffice"
+    ],
+    "rpm_depends":[
+        "net-tools", "vim", "telnet", "python",  "fcitx5", "itx5-configtool",
+        "fcitx5-chinese-addons", "terminator", "thunderbird", "gimp", "meld",
+        "wireshark", "clang", "clang-libs", "clang-devel","remmina-plugins-rdp",
+        "boost", "boost-devel", "cmake", "python2-devel", "python3-devel", 
+        "golang", "trash-cli", "pwgen", "gnome-tweak-tool",
+        "gnome-shell-extension-user-theme","gnome-shell-extension-dash-to-dock",
+        "gnome-shell-extension-topicons-plus","sshuttle", "samba", "screen", 
+        "pandoc", "lsyncd", "podman", "buildah","libvirt","qemu-kvm",
+        "virt-manager","libpcap-devel","libuuid-devel","python3-PyQt4",
+        "python3-netifaces","python3-tornado","python3-zmq", 
+        "gnome-extensions-app"
+    ]
+}

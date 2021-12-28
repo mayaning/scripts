@@ -1,0 +1,5 @@
+{
+    "rpm_depends_groups":["Development Tools"],
+    "rpm_depends":["net-tools", "vim", "telnet", "screen", "wget", "podman", 
+    "buildah", "langpacks-zh_CN"]
+}

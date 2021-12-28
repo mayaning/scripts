@@ -1,0 +1,14 @@
+{
+    "packages":[
+        "net-tools", "telnet", "python3",  "fcitx5", "fcitx5-chinese-addons", 
+		"terminator", "thunderbird", "wireshark", "clang","cmake", "golang", 
+        "trash-cli", "pwgen", "git", "universal-ctags", 
+        "cscope", "python3-dev", "openssh-server", "screen", 
+        "vim", "lsyncd", "subversion", "samba", "pandoc", 
+        "gnome-shell-extensions","gnome-shell-extension-dash-to-panel","zsh",
+        "libvirt-daemon","qemu-kvm","virt-manager","gnome-tweaks",
+        "openjdk-18-jdk"
+    ],
+    "static_domains":{
+    } 
+}

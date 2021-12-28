@@ -1,0 +1,15 @@
+{
+    "rpm_depends_groups":["C Development Tools and Libraries", "Development Tools", "LibreOffice"],
+    "rpm_depends":["net-tools", "vim", "telnet", "python",  "fcitx", "kcm-fcitx", "fcitx-table-extra",
+	"terminator", "thunderbird", "shutter", "wireshark", "fcitx-table-chinese",
+    "wireshark-qt", "clang", "clang-libs", "clang-devel", "boost", 
+    "boost-devel", "cmake", "python2-devel", "python3-devel", 
+    "golang", "trash-cli", "pwgen", "screen"],
+    "static_domains":{"jira.fipbj.certusnet.com":"172.17.5.253", 
+                     "confluence.fipbj.certusnet.com":"172.17.5.249",
+                     "jira.fipnj.certusnet.com":"172.16.66.198",
+                     "gerrit.fipnj.certusnet.com":"172.16.164.211",
+                     "gerrit.fipbj":"172.17.5.234",
+                     "gerrit.bfxm":"180.76.184.132" 
+                    } 
+}

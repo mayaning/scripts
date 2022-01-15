@@ -1,0 +1,9 @@
+{
+    "rpm_depends_groups":[],
+    "rpm_depends":[
+        "net-tools", "vim", "telnet", "python", "clang", "clang-libs", 
+        "clang-devel", "boost", "boost-devel", "cmake", "python2-devel", 
+        "python3-devel", "golang", "trash-cli", "pwgen", "sshuttle", "samba", 
+        "screen", "lsyncd", "cscope", "ctags"
+   ]
+}

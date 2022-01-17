@@ -89,8 +89,8 @@ if [ $# != 1 ]; then
     exit -1
 fi
 
-#upgrade_system
+upgrade_system
 
 CFG_FILE=$1
-#install_depends_packages
+install_depends_packages
 add_static_domain

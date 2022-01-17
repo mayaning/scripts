@@ -1,0 +1,10 @@
+{
+    "packages":["net-tools", "telnet", "python", "clang","cmake", "golang", 
+        "trash-cli", "pwgen", "sshuttle", "git", "cscope", "libvirt-daemon",
+        "python-dev", "python3-dev", "openssh-server", "screen", "numad",
+        "libvirt-clients", "libvirt-daemon-system", "virtinst", "vim"],
+    "static_domains":{"desktop.mayaning.priv":"10.168.1.2", 
+                     "gitlab.mayaning.priv":"10.168.1.10",
+                     "nextcloud.mayaning.priv":"10.168.1.11"
+                    } 
+}

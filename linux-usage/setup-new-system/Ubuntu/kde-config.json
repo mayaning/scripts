@@ -6,7 +6,7 @@
         "screen", "vim", "lsyncd", "subversion", "samba", "pandoc", "zsh", 
         "libvirt-daemon","qemu-kvm","virt-manager", "openjdk-18-jdk", 
         "autoconf", "automake", "autotools-dev", "libltdl-dev",
-        "libsigsegv2", "m4", "python-is-python3"
+        "libsigsegv2", "m4", "python-is-python3", "meld"
     ],
     "static_domains":{
     } 

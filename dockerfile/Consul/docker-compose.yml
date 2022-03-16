@@ -21,32 +21,32 @@
 # @date 2022-03-16
 #/
 
-version: "3.9"
-service:
+version: "3"
+services:
   ConsulServer1:
     image: consul:latest
     container_name: "ConsulServer1"
-    network:
+    networks:
       - consul
   ConsulServer2:
     image: consul:latest
     container_name: "ConsulServer2"
-    network:
+    networks:
       - consul
   ConsulServer3:
     image: consul:latest
     container_name: "ConsulServer3"
-    network:
+    networks:
       - consul
   ConsulClient1:
     image: consul:latest
     container_name: "ConsulClient1"
-    network:
+    networks:
       - consul
   ConsulClient2:
     image: consul:latest
     container_name: "ConsulClient2"
-    network:
+    networks:
       - consul
 
 networks:

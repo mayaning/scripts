@@ -25,7 +25,7 @@
 
 # 设置用户信息
 git config --global user.name "mayaning"
-git config --global user.email mayaning4priv@163.com
+git config --global user.email mayaning4coding@163.com
 
 # 设置默认编辑器
 git config --global core.editor vim

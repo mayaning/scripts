@@ -1,0 +1,48 @@
+{
+        "bind_addr": "10.10.1.51",
+        "datacenter": "dc1",
+        "data_dir": "/var/consul",
+        "encrypt": "emazhN1l8uNNYPJ6w4fJF02YnNmY0U6PwA3D5wLuH5g=",
+        "log_level": "INFO",
+        "enable_debug": true,
+        "node_name": "Dc1Client1",
+        "enable_script_checks": true,
+        "server": false,
+        "recursors": ["8.8.8.8"],
+        "services": [{
+                        "id": "http",
+                        "name": "Apache",
+                        "tags": ["HTTP"],
+                        "port": 80,
+                        "checks": [{
+                                "script": "curl 192.168.1.190 >/dev/null 2>&1",
+                                "interval": "10s"
+                        }]
+                },
+                {
+                        "id": "db1-prod-dc2",
+                        "name": "db1",
+                        "tags": ["dc2-db1"],
+                        "Service": "db1",
+                        "Address":"172.16.1.50",
+                        "port": 22,
+                        "checks": [
+                                    {
+                                      "id": "db1-dc2",
+                                      "name": "Prod db1 DC2",
+                                      "service_id": "db1",
+                                      "tcp": "172.16.1.50:3306",
+                                      "interval": "2s",
+                                      "timeout": "1s"
+                                    }
+                                  ]
+                }
+        ],
+        "rejoin_after_leave": true,
+        "disable_update_check": true,
+        "retry_join": [ 
+          "10.10.1.11:8301",
+          "10.10.1.12:8301",
+          "10.10.1.13:8301"
+          ]
+}

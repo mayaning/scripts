@@ -1,0 +1,42 @@
+{
+        "bind_addr": "0.0.0.0",
+        "datacenter": "dc2",
+        "data_dir": "/var/consul",
+        "encrypt": "emazhN1l8uNNYPJ6w4fJF02YnNmY0U6PwA3D5wLuH5g=",
+        "log_level": "INFO",
+        "enable_debug": true,
+        "node_name": "DC2Client1",
+        "enable_script_checks": true,
+        "server": false,
+        "recursors": ["8.8.8.8"],
+        "services": [{
+                        "id": "http",
+                        "name": "Apache",
+                        "tags": ["HTTP"],
+                        "Address":"10.16.1.50",
+                        "port": 80
+                },
+                {
+                        "id": "db2-prod-dc2",
+                        "name": "db2",
+                        "tags": ["dc2-db2"],
+                        "Address":"10.16.1.50",
+                        "port": 22
+                }
+        ],
+        "rejoin_after_leave": true,
+        "disable_update_check": true,
+        "retry_join": [ 
+          "DC2Server1:8301",
+          "DC2Server2:8301",
+          "DC2Server3:8301"
+          ],
+  "dns_config": {
+     "service_ttl": {
+       "*": "5s",
+       "web": "30s",
+       "db*": "10s",
+       "db-master": "3s"
+     }
+   }
+}

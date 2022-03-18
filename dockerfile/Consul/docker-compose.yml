@@ -23,29 +23,105 @@
 
 version: "3"
 services:
-  ConsulServer1:
+  DC1Server1:
     image: consul:latest
-    container_name: "ConsulServer1"
+    container_name: "DC1Server1"
+    volumes:
+      - $CFGDIR/DC1Server1.json:/etc/consul.d/DC1Server1.json
+    command: 
+      /usr/bin/consul agent -config-dir /etc/consul.d
     networks:
       - consul
-  ConsulServer2:
+  DC1Server2:
     image: consul:latest
-    container_name: "ConsulServer2"
+    container_name: "DC1Server2"
+    volumes:
+      - $CFGDIR/DC1Server2.json:/etc/consul.d/DC1Server2.json
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
     networks:
       - consul
-  ConsulServer3:
+  DC1Server3:
     image: consul:latest
-    container_name: "ConsulServer3"
+    container_name: "DC1Server3"
+    volumes:
+      - $CFGDIR/DC1Server3.json:/etc/consul.d/DC1Server3.json
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
     networks:
       - consul
-  ConsulClient1:
+  DC1Client1:
     image: consul:latest
-    container_name: "ConsulClient1"
+    container_name: "DC1Client1"
+    volumes:
+      - $CFGDIR/DC1Client1.json:/etc/consul.d/DC1Client1.json
+      - $CFGDIR/ServiceTest.sh:/usr/bin/ServiceTest.sh
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
     networks:
       - consul
-  ConsulClient2:
+  DC1Client2:
     image: consul:latest
-    container_name: "ConsulClient2"
+    container_name: "DC1Client2"
+    volumes:
+      - $CFGDIR/DC1Client2.json:/etc/consul.d/DC1Client2.json
+      - $CFGDIR/ServiceTest.sh:/usr/bin/ServiceTest.sh
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
+    networks:
+      - consul
+
+  DC2Server1:
+    image: consul:latest
+    container_name: "DC2Server1"
+    volumes:
+      - $CFGDIR/DC2Server1.json:/etc/consul.d/DC2Server1.json
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
+    networks:
+      - consul
+  DC2Server2:
+    image: consul:latest
+    container_name: "DC2Server2"
+    volumes:
+      - $CFGDIR/DC2Server2.json:/etc/consul.d/DC2Server2.json
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
+    networks:
+      - consul
+  DC2Server3:
+    image: consul:latest
+    container_name: "DC2Server3"
+    volumes:
+      - $CFGDIR/DC2Server3.json:/etc/consul.d/DC2Server3.json
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
+    networks:
+      - consul
+  DC2Client1:
+    image: consul:latest
+    container_name: "DC2Client1"
+    volumes:
+      - $CFGDIR/DC2Client1.json:/etc/consul.d/DC2Client1.json
+      - $CFGDIR/ServiceTest.sh:/usr/bin/ServiceTest.sh
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
+    networks:
+      - consul
+  DC2Client2:
+    image: consul:latest
+    container_name: "DC2Client2"
+    volumes:
+      - $CFGDIR/DC2Client2.json:/etc/consul.d/DC2Client2.json
+      - $CFGDIR/ServiceTest.sh:/usr/bin/ServiceTest.sh
+    command:
+      /usr/bin/consul agent -config-dir /etc/consul.d
+    networks:
+      - consul
+
+  AppClient:
+    image: consul:latest
+    container_name: "AppClient"
     networks:
       - consul
 

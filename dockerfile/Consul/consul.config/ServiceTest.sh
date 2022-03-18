@@ -1,3 +1,4 @@
+#!/bin/bash
 # #######################################################
 # Copyright 2021 - 2022 Ma Yaning
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,26 +15,30 @@
 # #######################################################
 #/
 ##
-# @file Dockerfile
-# @Brief    生成Consul测试容器
+# @file SerivceTest.sh
+# @Brief    
 # @author Ma Yaning, <mayaning4coding@163.com>
 # @version 0.1
-# @date 2022-03-16
+# @date 2022-03-18
 #/
 
-FROM debian:latest
-MAINTAINER mayaning mayaning4coding@163.com
 
-# 安装依赖软件
-RUN apt-get -y update
-RUN apt-get -y install curl software-properties-common gnupg dnsutils
+# 服务查询, 服务的格式: 
+# [tag.]<service>.service[.datacenter].<domain>
+dig @127.0.0.1 -p 8600 Apache.service.consul
+dig @127.0.0.1 -p 8600 db1.service.consul
+dig @127.0.0.1 -p 8600 db2.service.consul
 
-# 安装Consul
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-RUN apt-get -y update && apt-get -y install consul
+dig @127.0.0.1 -p 8600 Apache.service.dc1.consul
+dig @127.0.0.1 -p 8600 db1.service.dc1.consul
+dig @127.0.0.1 -p 8600 db2.service.dc1.consul
 
-COPY endpoint.sh /usr/bin
-CMD ["endpoint.sh"]
+dig @127.0.0.1 -p 8600 Apache.service.dc2.consul
+dig @127.0.0.1 -p 8600 db1.service.dc2.consul
+dig @127.0.0.1 -p 8600 db2.service.dc2.consul
 
-VOLUME /etc/consul.d
+# 节点查询，格式:
+# <node>.node[.datacenter].<domain>
+dig @127.0.0.1 -p 8600 DC1Server1.node.consul
+dig @127.0.0.1 -p 8600 DC2Server1.node.consul
+

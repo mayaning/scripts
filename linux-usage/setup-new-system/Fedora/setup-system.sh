@@ -83,5 +83,5 @@ if [ $# != 1 ]; then
 fi
 cfg_file=$1
 install_depends_packages $cfg_file
-add_static_domain $cfg_file
+#add_static_domain $cfg_file
 #gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"

@@ -30,6 +30,7 @@ IMAGE_NAME="$IMAGE_DIR/screenshot_$(date +%F_%H-%M-%S).png"
 
 # Step 1: 使用gnome-screenshot获取截图并保存
 gnome-screenshot -caf "$IMAGE_NAME"
+# 判断截图成功才对截图进行编辑，有可能Step 1并未真正进行截图(比如按Esc退出了)
 if [ -e "$IMAGE_NAME" ]
 then 
     # Step 2: 将截图后的图片复制到粘贴板

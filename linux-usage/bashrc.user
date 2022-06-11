@@ -48,7 +48,7 @@ TEXMFHOME=$HOME/Workspace/texmf
 export TEXMFHOME
 
 # 可执行文件搜索路径
-PATH=/usr/local/texlive/2021/bin/x86_64-linux:$PATH
+PATH=/usr/local/texlive/2022/bin/x86_64-linux:$PATH
 PATH=${HOME}/Apps/bin:${PATH}
 export PATH
 

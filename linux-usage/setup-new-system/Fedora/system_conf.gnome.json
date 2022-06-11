@@ -11,8 +11,9 @@
         "gnome-shell-extension-user-theme","gnome-shell-extension-dash-to-dock",
         "gnome-shell-extension-topicons-plus","sshuttle", "samba", "screen", 
         "pandoc", "lsyncd", "podman", "buildah","libvirt","qemu-kvm",
-        "virt-manager","libpcap-devel","libuuid-devel","python3-PyQt4",
+        "virt-manager","libpcap-devel","libuuid-devel",
         "python3-netifaces","python3-tornado","python3-zmq", 
-        "gnome-extensions-app"
+        "gnome-extensions-app","libXrender-devel", "libXtst-devel", 
+        "java-latest-openjdk", "java-latest-openjdk-static-libs"
     ]
 }

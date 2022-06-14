@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
 
+CONFIG_FILE="key.config"
 KEY_NAME="MOK.priv"
 DER_NAME="MOK.der"
 SIGNFILE="/usr/src/kernels/$(uname -r)/scripts/sign-file"
 
+
 function create_cert()
 {
     echo "Create cert"
-    openssl req -new -x509 -newkey rsa:2048 -keyout $KEY_NAME \
-        -outform DER -out $DER_NAME -nodes -days 36500 \
-        -subj "/CN=Private Driver Signing"
+    #openssl req -new -x509 -newkey rsa:2048 -keyout $KEY_NAME \
+    #    -outform DER -out $DER_NAME -nodes -days 36500 \
+    #    -subj "/CN=Private Driver Signing"
+
+    sudo openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 \
+        -batch -config $CONFIG_FILE -outform DER \
+        -out $DER_NAME \
+        -keyout $KEY_NAME
 
     mokutil --import $DER_NAME
 }
@@ -35,13 +42,13 @@ function signing()
 
     echo "sign-file"
     $SIGNFILE "${hash_algo}" "${key}" "${x509}" \
-        "/lib/modules/$(uname -r)/extra/VirtualBox/vboxdrv.ko"
+        "/lib/modules/$(uname -r)/misc/vboxdrv.ko"
 
     $SIGNFILE "${hash_algo}" "${key}" \
-        "${x509}" "/lib/modules/$(uname -r)/extra/VirtualBox/vboxnetflt.ko"
+        "${x509}" "/lib/modules/$(uname -r)/misc/vboxnetflt.ko"
 
     $SIGNFILE "${hash_algo}" "${key}" "${x509}" \
-        "/lib/modules/$(uname -r)/extra/VirtualBox/vboxnetadp.ko"
+        "/lib/modules/$(uname -r)/misc/vboxnetadp.ko"
 }
 
 # start from here

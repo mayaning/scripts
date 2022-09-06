@@ -1,0 +1,8 @@
+{
+    "pkg_depends":[
+        "net-tools", "vim", "telnet", "python3", "clang", "libclang-dev", 
+        "libboost-dev", "cmake", "python3-dev", "golang", "trash-cli", "pwgen",
+        "sshuttle", "samba", "screen", "lsyncd", "cscope", "universal-ctags", 
+        "nodejs", "python3-pip", "curl", "npm"
+   ]
+}

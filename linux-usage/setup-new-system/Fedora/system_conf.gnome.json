@@ -14,6 +14,7 @@
         "virt-manager","libpcap-devel","libuuid-devel",
         "python3-netifaces","python3-tornado","python3-zmq", 
         "gnome-extensions-app","libXrender-devel", "libXtst-devel", 
-        "java-latest-openjdk", "java-latest-openjdk-static-libs"
+        "java-latest-openjdk", "java-latest-openjdk-static-libs", "geany", 
+        "fzf","bat", "the_silver_searcher", "ripgrep", "perl"
     ]
 }

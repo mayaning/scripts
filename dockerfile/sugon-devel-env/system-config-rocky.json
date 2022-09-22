@@ -3,7 +3,8 @@
     "rpm_depends":[
         "net-tools", "vim", "telnet", "python3", "clang", "clang-libs", 
         "clang-devel", "boost", "boost-devel", "cmake", "vim-enhanced", 
-        "python3-devel", "golang", "samba", "cscope", "ctags", 
-        "vim-filesystem", "golang", "rust", "python3-pip", "dos2unix"
+        "python3-devel", "golang", "samba", "cscope", "ctags", "nodejs",
+        "vim-filesystem", "golang", "rust", "python3-pip", "dos2unix",
+        "fzf","bat", "the_silver_searcher", "ripgrep", "perl"
    ]
 }

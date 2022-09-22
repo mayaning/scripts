@@ -25,28 +25,14 @@ set -o errexit
 
 function install_depends_packages()
 {
-    container=$1
-    cfg=$2
+    local container=$1
 
-    #Upgrade system
-    buildah run $container dnf -y upgrade
-
-    #Install depends groups
-    length=$(cat $cfg | jq '.rpm_depends_groups | length')
-    for (( i=0; i<$length; i+=1 )); do
-        group=$(cat $cfg | jq ".rpm_depends_groups[$i]")
-        group=$(echo $group | sed "s/\"//g")
-        buildah run $container dnf -y groupinstall "$group"
-    done
-
-    #Install depends packages
-    rpm_depends=$(cat $cfg | jq ".rpm_depends" | sed "s/\[//g" | sed "s/\]//g" \
-        | sed "s/,//g" | sed "s/\"//g" | sed "/^$/d" | tr -d "\n" \
-        | sed "s/^ *//g")
-    buildah run $container dnf -y install $rpm_depends
-
-    # 清除dnf缓存
-    buildah run $container dnf clean all
+    buildah run $container apk add --update nodejs python3 neovim neovim-lang \
+        fzf-neovim py3-pynvim fzf clang clang-analyzer clang-libs clang-dev \
+        clang-static clang-extra-tools boost boost-dev cmake python3-dev go \
+        ripgrep perl the_silver_searcher-bash-completion the_silver_searcher \
+        bat npm yarn make ncurses-libs ncurses-dev ncurses ncurses-static \
+        ncurses-terminfo ncurses-terminfo-base bison flex git ctags
 }
 
 function setup_fzf()
@@ -61,49 +47,49 @@ function setup_fzf()
     rm -rf fzf
 }
 
-function setup_vim()
+function setup_nvim()
 {
     local container=$1 
 
-    #rm -rf Vundle.vim
-    #git clone https://github.com/VundleVim/Vundle.vim.git
-    #buildah run $container mkdir -p /root/.vim/bundle
-    #buildah copy $container Vundle.vim /root/.vim/bundle/Vundle.vim
-    #buildah copy $container dot.vimrc /root/.vimrc
-    #buildah run $container vim -m "+BundleInstall" "+q" "+q"
-    #rm -rf Vundle.vim
+    rm -rf nvim 
+    tar xzvf nvim.tar.gz
 
-    rm -rf vim 
-    tar xzvf vim.tar.gz
-    buildah copy $container vim/dot.vimrc /root/.vimrc
-    buildah copy $container vim/dot.vim /root/.vim
-    #buildah run --workingdir /root/.vim/bundle/coc.nvim $container yarn
-    
-    #buildah run $container vim -m "+CocInstall coc-clangd" "+q" "+q"
-    #buildah run $container vim -m "+CocInstall coc-rust-analyzer" "+q" "+q"
-    rm -rf vim 
+    buildah run $container mkdir -p /root/.config/nvim
+    buildah run $container mkdir -p /root/.local/share/nvim/plugged
+    buildah copy $container nvim/nvim /root/.config/nvim
+    buildah copy $container nvim/plugged /root/.local/share/nvim/plugged
+
+    rm -rf nvim 
 }
 
-function install_pyton_depends()
+function install_cscope()
 {
     local container=$1 
 
-    buildah copy $container py-depends.txt /tmp
-    buildah run $container pip install -r /tmp/py-depends.txt
-    buildah run $container  rm -rf /tmp/py-depends.txt
+    rm -rf cscope-15.9
+    tar xzvf cscope-15.9.tar.gz
+    buildah copy $container  cscope-15.9 /tmp/cscope-15.9
+    buildah run --workingdir /tmp/cscope-15.9 $container ./configure \
+        --prefix=/usr
+    buildah run --workingdir /tmp/cscope-15.9 $container make
+    buildah run --workingdir /tmp/cscope-15.9 $container make install
+
+    rm -rf cscope-15.9
 }
 
+function misc_setup()
+{
+    local container=$1 
+    buildah run $container ln -s /bin/busybox /bin/bash
+}
 
 # #######################################################
 # 从这里开始
 # #######################################################
-CFGFILE=system-config-fedora.json
 step=0
 
-echo "Create sugon env from fedora:36"
-
 # Create a container
-CONTAINER=$(buildah from fedora:36)
+CONTAINER=$(buildah from alpine:latest)
 
 # Labels are part of the "buildah config" command
 buildah config --label maintainer="mayaning<mayaning4coding@163.com>" $CONTAINER
@@ -123,30 +109,34 @@ let step+=1
 echo "Step $step: Install depend packages"
 install_depends_packages $CONTAINER $CFGFILE
 
-# 安装python包
-let step+=1
-echo "Step $step: Install python depend packages"
-install_pyton_depends $CONTAINER
-
-# 设置VIM, 注释掉，以减小Image大小
+# 安装fzf
 let step+=1
 echo "Step $step: Setup fzf"
 setup_fzf $CONTAINER
 
-
 # 设置VIM, 注释掉，以减小Image大小
 let step+=1
 echo "Step $step: Setup vim"
-setup_vim $CONTAINER
+setup_nvim $CONTAINER
+
+# 安装cscope
+let step+=1
+echo "Step $step: Install cscope"
+install_cscope $CONTAINER
+
+# 其它配置
+let step+=1
+echo "Step $step: Misc setup"
+misc_setup $CONTAINER
 
 # Finally saves the running container to an image
 let step+=1
 echo "Step $step: Commit container image"
-buildah commit --format docker $CONTAINER sugon-env-fedora:latest
+buildah commit --format docker $CONTAINER sugon-env-nvim-alpine:latest
 
 # 导出容器镜像
 let step+=1
 echo "Step $step: Export container image"
-rm -rf sugon-env-fedora.tar.gz
-podman save --format docker-archive -o sugon-env-fedora.tar.gz \
-    sugon-env-fedora:latest
+rm -rf sugon-env-nvim-alpine.tar.gz
+podman save --format docker-archive -o sugon-env-nvim-alpine.tar.gz \
+    sugon-env-nvim-alpine:latest

@@ -26,27 +26,15 @@ set -o errexit
 function install_depends_packages()
 {
     container=$1
-    cfg=$2
+
+    buildah copy $container mirrorlist /etc/pacman.d/mirrorlist
 
     #Upgrade system
-    buildah run $container dnf -y upgrade
+    buildah run $container pacman -Syy vim python3 clang boost cmake go \
+        cscope ctags nodejs rust fzf bat the_silver_searcher ripgrep perl \
+        python-pip yarn git\
+        --noconfirm
 
-    #Install depends groups
-    length=$(cat $cfg | jq '.rpm_depends_groups | length')
-    for (( i=0; i<$length; i+=1 )); do
-        group=$(cat $cfg | jq ".rpm_depends_groups[$i]")
-        group=$(echo $group | sed "s/\"//g")
-        buildah run $container dnf -y groupinstall "$group"
-    done
-
-    #Install depends packages
-    rpm_depends=$(cat $cfg | jq ".rpm_depends" | sed "s/\[//g" | sed "s/\]//g" \
-        | sed "s/,//g" | sed "s/\"//g" | sed "/^$/d" | tr -d "\n" \
-        | sed "s/^ *//g")
-    buildah run $container dnf -y install $rpm_depends
-
-    # 清除dnf缓存
-    buildah run $container dnf clean all
 }
 
 function setup_fzf()
@@ -77,10 +65,11 @@ function setup_vim()
     tar xzvf vim.tar.gz
     buildah copy $container vim/dot.vimrc /root/.vimrc
     buildah copy $container vim/dot.vim /root/.vim
-    #buildah run --workingdir /root/.vim/bundle/coc.nvim $container yarn
+    buildah run --workingdir /root/.vim/bundle/coc.nvim $container yarn
     
-    #buildah run $container vim -m "+CocInstall coc-clangd" "+q" "+q"
-    #buildah run $container vim -m "+CocInstall coc-rust-analyzer" "+q" "+q"
+    buildah run $container vim -m "+CocInstall coc-clangd" "+q" "+q"
+    buildah run $container vim -m "+CocInstall coc-rust-analyzer" "+q" "+q"
+    rm -rf vim 
 }
 
 function install_pyton_depends()
@@ -88,42 +77,23 @@ function install_pyton_depends()
     local container=$1 
 
     buildah copy $container py-depends.txt /tmp
-    buildah run $container pip3 install -r /tmp/py-depends.txt
+    buildah run $container pip install -r /tmp/py-depends.txt
     buildah run $container  rm -rf /tmp/py-depends.txt
-}
-
-function install_nodejs()
-{
-    local container=$1
-
-    rm -rf node-v16.17.0-linux-x64
-    tar xJvf node-v16.17.0-linux-x64.tar.xz
-
-    buildah copy $container node-v16.17.0-linux-x64/bin/* /usr/bin
-    buildah copy $container node-v16.17.0-linux-x64/include/* /usr/include/
-    buildah copy $container node-v16.17.0-linux-x64/lib/* /usr/lib/
-    buildah copy $container node-v16.17.0-linux-x64/share/* /usr/share/
-
-    rm -rf node-v16.17.0-linux-x64
 }
 
 
 # #######################################################
 # 从这里开始
 # #######################################################
-CFGFILE=system-config-rocky.json
 step=0
 
-echo "Create sugon env from rockylinux:9.0"
+echo "Create sugon env from archlinux"
 
 # Create a container
-CONTAINER=$(buildah from rockylinux:9.0)
+CONTAINER=$(buildah from archlinux)
 
 # Labels are part of the "buildah config" command
 buildah config --label maintainer="mayaning<mayaning4coding@163.com>" $CONTAINER
-
-buildah run $CONTAINER dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-buildah run $CONTAINER dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm
 
 let step+=1
 echo "Step $step: Setup endpoint"
@@ -138,22 +108,18 @@ buildah config --workingdir /workspace $CONTAINER
 # 安装依赖软件包
 let step+=1
 echo "Step $step: Install depend packages"
-install_depends_packages $CONTAINER $CFGFILE
+install_depends_packages $CONTAINER
 
 # 安装python包
-let step+=1
-echo "Step $step: Install python depend packages"
-install_pyton_depends $CONTAINER
+#let step+=1
+#echo "Step $step: Install python depend packages"
+#install_pyton_depends $CONTAINER
 
-# 安装nodejs包
-let step+=1
-echo "Step $step: Install python depend packages"
-install_nodejs $CONTAINER
-
-# 设置fzf
+# 设置VIM, 注释掉，以减小Image大小
 let step+=1
 echo "Step $step: Setup fzf"
 setup_fzf $CONTAINER
+
 
 # 设置VIM, 注释掉，以减小Image大小
 let step+=1
@@ -163,11 +129,11 @@ setup_vim $CONTAINER
 # Finally saves the running container to an image
 let step+=1
 echo "Step $step: Commit container image"
-buildah commit --format docker $CONTAINER sugon-env-rocky:latest
+buildah commit --format docker $CONTAINER sugon-env-archlinux:latest
 
 # 导出容器镜像
 let step+=1
 echo "Step $step: Export container image"
-rm -rf sugon-env-rocky.tar.gz
-podman save --format docker-archive -o sugon-env-rocky.tar.gz \
-    sugon-env-rocky:latest
+rm -rf sugon-env-archlinux.tar.gz
+podman save --format docker-archive -o sugon-env-archlinux.tar.gz \
+    sugon-env-archlinux:latest

@@ -25,22 +25,20 @@ set -o errexit
 
 function install_depends_packages()
 {
-    local container=$1
-    local cfg=$2
+    container=$1
+    cfg=$2
 
-    # 替换为国内源
-    buildah run $container sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' \
-        /etc/apt/sources.list
+    #Upgrade system
+    buildah run $container dnf -y upgrade
+    
+    # 安装软件
+    buildah run $container dnf -y install neovim python3-neovim clang-libs \
+        clang-devel boost boost-devel cmake python3-devel golang pwgen  \
+        cscope ctags nodejs yarnpkg rust fzf bat the_silver_searcher    \
+        ripgrep perl
 
-    # Upgrade system
-    buildah run $container apt -y update
-    buildah run $container apt -y upgrade
-
-    # Install depends packages
-    local pkg_depends=$(cat $cfg | jq ".pkg_depends" | sed "s/\[//g" | sed "s/\]//g" \
-        | sed "s/,//g" | sed "s/\"//g" | sed "/^$/d" | tr -d "\n" \
-        | sed "s/^ *//g")
-    buildah run $container apt -y install $pkg_depends
+    # 清除dnf缓存
+    buildah run $container dnf clean all
 }
 
 function setup_fzf()
@@ -55,25 +53,19 @@ function setup_fzf()
     rm -rf fzf
 }
 
-function setup_vim()
+function setup_nvim()
 {
     local container=$1 
 
-    #rm -rf Vundle.vim
-    #git clone https://github.com/VundleVim/Vundle.vim.git
-    #buildah run $container mkdir -p /root/.vim/bundle
-    #buildah copy $container Vundle.vim /root/.vim/bundle/Vundle.vim
-    #buildah copy $container dot.vimrc /root/.vimrc
-    #buildah run $container vim -m "+BundleInstall" "+q" "+q"
-    #rm -rf Vundle.vim
+    rm -rf nvim 
+    tar xzvf nvim.tar.gz
 
-    tar xzvf vim.tar.gz
-    buildah copy $container vim/dot.vimrc /root/.vimrc
-    buildah copy $container vim/dot.vim /root/.vim
-    buildah run --workingdir /root/.vim/bundle/coc.nvim $container yarn
+    buildah run $container mkdir -p /root/.config/nvim
+    buildah run $container mkdir -p /root/.local/share/nvim/plugged
+    buildah copy $container nvim/nvim /root/.config/nvim
+    buildah copy $container nvim/plugged /root/.local/share/nvim/plugged
 
-    buildah run $container vim -m "+CocInstall coc-clangd" "+q" "+q"
-    buildah run $container vim -m "+CocInstall coc-rust-analyzer" "+q" "+q"
+    rm -rf nvim 
 }
 
 function install_pyton_depends()
@@ -81,39 +73,20 @@ function install_pyton_depends()
     local container=$1 
 
     buildah copy $container py-depends.txt /tmp
-    buildah run $container pip3 install -r /tmp/py-depends.txt
+    buildah run $container pip install -r /tmp/py-depends.txt
     buildah run $container  rm -rf /tmp/py-depends.txt
-}
-
-function install_nodejs()
-{
-    local container=$1
-
-    rm -rf node-v16.17.0-linux-x64
-    tar xJvf node-v16.17.0-linux-x64.tar.xz
-
-    buildah copy $container node-v16.17.0-linux-x64 /usr/local/node-v16.17.0-linux-x64
-    buildah run $container echo $(echo "export PATH=/usr/local/node-v16.17.0-linux-x64/bin:$PATH" >> /root/.bashrc)
-
-    rm -rf node-v16.17.0-linux-x64
-}
-
-function install_nodejs_depends()
-{
-    local container=$1 
-
-    buildah run $container npm install -g yarn --registry https://registry.npmmirror.com
 }
 
 
 # #######################################################
 # 从这里开始
 # #######################################################
-CFGFILE=system-config-ubuntu.json
 step=0
 
+echo "Create sugon env from fedora:36"
+
 # Create a container
-CONTAINER=$(buildah from ubuntu:22.04)
+CONTAINER=$(buildah from fedora:36)
 
 # Labels are part of the "buildah config" command
 buildah config --label maintainer="mayaning<mayaning4coding@163.com>" $CONTAINER
@@ -131,24 +104,14 @@ buildah config --workingdir /workspace $CONTAINER
 # 安装依赖软件包
 let step+=1
 echo "Step $step: Install depend packages"
-install_depends_packages $CONTAINER $CFGFILE
+install_depends_packages $CONTAINER
 
 # 安装python包
-let step+=1
-echo "Step $step: Install python depend packages"
-install_pyton_depends $CONTAINER
+#let step+=1
+#echo "Step $step: Install python depend packages"
+#install_pyton_depends $CONTAINER
 
-# 安装nodejs包
-let step+=1
-echo "Step $step: Install nodejs depend packages"
-install_nodejs $CONTAINER
-
-# 安装nodejs包
-let step+=1
-echo "Step $step: Install nodejs depend packages"
-#install_nodejs_depends $CONTAINER
-
-# 安装fzf
+# 设置VIM, 注释掉，以减小Image大小
 let step+=1
 echo "Step $step: Setup fzf"
 setup_fzf $CONTAINER
@@ -156,16 +119,16 @@ setup_fzf $CONTAINER
 # 设置VIM, 注释掉，以减小Image大小
 let step+=1
 echo "Step $step: Setup vim"
-setup_vim $CONTAINER
+setup_nvim $CONTAINER
 
 # Finally saves the running container to an image
 let step+=1
 echo "Step $step: Commit container image"
-buildah commit --format docker $CONTAINER sugon-env-ubuntu:latest
+buildah commit --format docker $CONTAINER sugon-env-nvim-fedora:latest
 
 # 导出容器镜像
 let step+=1
 echo "Step $step: Export container image"
-rm -rf sugon-env-ubuntu.tar.gz
-podman save --format docker-archive -o sugon-env-ubuntu.tar.gz \
-    sugon-env-ubuntu:latest
+rm -rf sugon-env-nvim-fedora.tar.gz
+podman save --format docker-archive -o sugon-env-nvim-fedora.tar.gz \
+    sugon-env-nvim-fedora:latest

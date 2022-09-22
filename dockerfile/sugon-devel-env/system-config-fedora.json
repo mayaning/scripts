@@ -5,6 +5,7 @@
         "clang-devel", "boost", "boost-devel", "cmake", "vim-enhanced", 
         "python3-devel", "golang", "trash-cli", "pwgen", "sshuttle", "samba", 
         "screen", "lsyncd", "cscope", "ctags", "nodejs", "yarnpkg", 
-        "vim-filesystem", "golang", "rust"
+        "vim-filesystem", "golang", "rust",
+        "fzf","bat", "the_silver_searcher", "ripgrep", "perl"
    ]
 }

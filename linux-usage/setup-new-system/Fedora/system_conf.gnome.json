@@ -15,6 +15,7 @@
         "python3-netifaces","python3-tornado","python3-zmq", 
         "gnome-extensions-app","libXrender-devel", "libXtst-devel", 
         "java-latest-openjdk", "java-latest-openjdk-static-libs", "geany", 
-        "fzf","bat", "the_silver_searcher", "ripgrep", "perl"
+        "fzf","bat", "the_silver_searcher", "ripgrep", "perl", "neovim", 
+        "python3-neovim.noarch", "touchegg"
     ]
 }

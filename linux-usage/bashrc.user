@@ -50,6 +50,7 @@ export TEXMFHOME
 # 可执行文件搜索路径
 PATH=/usr/local/texlive/2022/bin/x86_64-linux:$PATH
 PATH=${HOME}/Apps/bin:${PATH}
+PATH=/home/mayaning/.cargo/bin:${PATH}
 export PATH
 
 # Golang 工作目录
@@ -67,3 +68,5 @@ source /usr/share/fzf/shell/key-bindings.bash
 alias rm='/usr/bin/trash'
 alias emacs='emacs -nw'
 alias bat='bat --theme ansi'
+alias icat="kitty +kitten icat"
+alias kdiff="kitty +kitten diff"

@@ -32,8 +32,19 @@ function install_depends_packages()
         clang-static clang-extra-tools boost boost-dev cmake python3-dev go \
         ripgrep perl the_silver_searcher-bash-completion the_silver_searcher \
         bat npm yarn make ncurses-libs ncurses-dev ncurses ncurses-static \
-        ncurses-terminfo ncurses-terminfo-base bison flex git ctags
+        ncurses-terminfo ncurses-terminfo-base bison flex git ctags py3-pip \
+        openssh-client icu-data-full tree openjdk17-jre-headless
 }
+
+function install_python_depend_packages()
+{
+    local container=$1 
+
+    buildah copy $container py-depends.txt /tmp
+    buildah run $container pip3 install -r /tmp/py-depends.txt
+    buildah run $container  rm -rf /tmp/py-depends.txt
+}
+
 
 function setup_fzf()
 {
@@ -43,7 +54,7 @@ function setup_fzf()
     tar xzvf fzf.tar.gz
     buildah copy $container fzf/dot.fzf /root/.fzf
     buildah copy $container fzf/dot.fzf.bash /root/.fzf.bash
-    #buildah run $container echo "[ -f ~/.fzf.bash ] && source ~/.fzf.bash" >> /root/.bashrc
+    #buildah run $container /bin/sh -c "echo [ -f ~/.fzf.bash ] && source ~/.fzf.bash >> /root/.bashrc"
     rm -rf fzf
 }
 
@@ -77,10 +88,27 @@ function install_cscope()
     rm -rf cscope-15.9
 }
 
+function install_allure()
+{
+    local container=$1
+
+    rm -rf allure-2.21.0
+    tar xzvf allure-2.21.0.tgz
+    buildah copy $container allure-2.21.0 /opt/allure-2.21.0
+
+    rm -rf allure-2.21.0
+}
+
 function misc_setup()
 {
     local container=$1 
     buildah run $container ln -s /bin/busybox /bin/bash
+}
+
+function env_setup()
+{
+    local container=$1
+    buildah config --env PATH=/opt/allure-2.21.0/bin:$PATH $container
 }
 
 # #######################################################
@@ -107,7 +135,12 @@ buildah config --workingdir /workspace $CONTAINER
 # 安装依赖软件包
 let step+=1
 echo "Step $step: Install depend packages"
-install_depends_packages $CONTAINER $CFGFILE
+install_depends_packages $CONTAINER
+
+# 安装python依赖软件包
+let step+=1
+echo "Step $step: Install depend packages"
+install_python_depend_packages $CONTAINER
 
 # 安装fzf
 let step+=1
@@ -124,10 +157,20 @@ let step+=1
 echo "Step $step: Install cscope"
 install_cscope $CONTAINER
 
+# 安装allure
+let step+=1
+echo "Step $step: Install allure"
+install_allure $CONTAINER
+
 # 其它配置
 let step+=1
 echo "Step $step: Misc setup"
 misc_setup $CONTAINER
+
+# 设置环境变更
+let step+1
+echo "Step $step: Env setup"
+env_setup $CONTAINER
 
 # Finally saves the running container to an image
 let step+=1

@@ -1,0 +1,89 @@
+Host desktop
+    Hostname 10.168.1.2
+    Port 22
+    User mayaning
+
+Host ngfw
+    Hostname 10.168.1.26
+    Port 22
+    User root
+
+Host LB1
+    Hostname 10.168.1.31
+    Port 22
+    User root
+
+Host LB2
+    Hostname 10.168.1.32
+    Port 22
+    User root
+
+Host LB3
+    Hostname 10.168.1.33
+    Port 22
+    User root
+
+Host K8sCtrl1
+    Hostname 10.168.1.41
+    Port 22
+    User root
+
+Host K8sCtrl2
+    Hostname 10.168.1.42
+    Port 22
+    User root
+
+Host K8sCtrl3
+    Hostname 10.168.1.43
+    Port 22
+    User root
+
+Host K8sNode1
+    Hostname 10.168.1.51
+    Port 22
+    User root
+
+Host K8sNode2
+    Hostname 10.168.1.52
+    Port 22
+    User root
+
+Host K8sNode3
+    Hostname 10.168.1.53
+    Port 22
+    User root
+
+Host K8sNode4
+    Hostname 10.168.1.54
+    Port 22
+    User root
+
+Host K8sNode5
+    Hostname 10.168.1.55
+    Port 22
+    User root
+
+Host K8sNode6
+    Hostname 10.168.1.56
+    Port 22
+    User root
+
+Host K8sNode7
+    Hostname 10.168.1.57
+    Port 22
+    User root
+
+Host K8sNode8
+    Hostname 10.168.1.58
+    Port 22
+    User root
+
+Host Air
+    Hostname 10.168.1.4
+    Port 22
+    User mayaning
+
+Host Raspberrypi
+    Hostname 10.168.1.100
+    Port 22
+    User bfx

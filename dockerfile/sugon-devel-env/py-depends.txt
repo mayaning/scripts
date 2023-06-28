@@ -1,1 +1,10 @@
-python-jenkins
+psutil
+paramiko
+goto-statement
+scp
+uuid
+robotframework
+TestObject
+robotframework-sshlibrary
+pytest
+allure-pytest

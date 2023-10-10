@@ -58,7 +58,7 @@ GOPATH=$HOME/Apps/Golang
 export GOPATH
 
 # fzf
-source /usr/share/fzf/shell/key-bindings.bash
+# source /usr/share/fzf/shell/key-bindings.bash
 
 
 # #######################################################
@@ -70,3 +70,9 @@ alias emacs='emacs -nw'
 alias bat='bat --theme ansi'
 alias icat="kitty +kitten icat"
 alias kdiff="kitty +kitten diff"
+alias vim='nvim'
+
+
+# ssh 命令补全
+complete -W "$(echo $(grep '^Host ' ${HOME}/.ssh/config  | sort -u | sed 's/^ssh //'))" ssh
+complete -W "$(echo $(grep '^Host ' ${HOME}/.ssh/config  | sort -u | sed 's/^scp //'))" scp

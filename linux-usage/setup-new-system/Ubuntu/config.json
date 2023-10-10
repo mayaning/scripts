@@ -1,12 +1,12 @@
 {
     "packages":[
         "net-tools", "telnet", "python3",  "fcitx5", "fcitx5-chinese-addons", 
-		"terminator", "thunderbird", "wireshark", "clang","cmake", "golang", 
-        "trash-cli", "pwgen", "git", "universal-ctags", "cscope", "python3-dev",
-        "openssh-server", "screen", "vim", "lsyncd", "subversion", "samba",
-        "pandoc", "gnome-shell-extensions",
-        "zsh", "libvirt-daemon","qemu-kvm","virt-manager","gnome-tweaks",
-        "openjdk-18-jdk", "autoconf", "automake", "autotools-dev", "libltdl-dev",
+	"clang","cmake", "golang", "trash-cli", "pwgen", "git",
+	"universal-ctags", "cscope", "python3-dev",
+        "openssh-server", "screen", "lsyncd", "subversion", "samba",
+        "pandoc", "gnome-shell-extensions", "zsh", "libvirt-daemon",
+	"virt-manager","gnome-tweaks", "openjdk-18-jdk", "autoconf", 
+	"automake", "autotools-dev", "libltdl-dev",
         "libsigsegv2", "m4", "python-is-python3", "meld"
     ],
     "static_domains":{

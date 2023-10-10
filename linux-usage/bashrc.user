@@ -74,5 +74,6 @@ alias vim='nvim'
 
 
 # ssh 命令补全
-complete -W "$(echo $(grep '^Host ' ${HOME}/.ssh/config  | sort -u | sed 's/^ssh //'))" ssh
-complete -W "$(echo $(grep '^Host ' ${HOME}/.ssh/config  | sort -u | sed 's/^scp //'))" scp
+# complete -W "$(echo $(grep '^Host ' ${HOME}/.ssh/config  | sort -u | sed 's/^ssh //'))" ssh
+# complete -W "$(echo $(grep '^Host ' ${HOME}/.ssh/config  | sort -u | sed 's/^scp //'))" scp
+# apt install bash-completion

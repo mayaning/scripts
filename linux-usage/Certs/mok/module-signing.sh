@@ -41,20 +41,20 @@ function signing()
     export KBUILD_SIGN_PIN
 
     echo "sign-file"
-    $SIGNFILE "${hash_algo}" "${key}" "${x509}" \
-        "/lib/modules/$(uname -r)/misc/vboxdrv.ko"
+    #$SIGNFILE "${hash_algo}" "${key}" "${x509}" \
+    #    "/lib/modules/$(uname -r)/misc/vboxdrv.ko"
 
-    $SIGNFILE "${hash_algo}" "${key}" \
-        "${x509}" "/lib/modules/$(uname -r)/misc/vboxnetflt.ko"
-
-    $SIGNFILE "${hash_algo}" "${key}" "${x509}" \
-        "/lib/modules/$(uname -r)/misc/vboxnetadp.ko"
+    #$SIGNFILE "${hash_algo}" "${key}" \
+    #    "${x509}" "/lib/modules/$(uname -r)/misc/vboxnetflt.ko"
 
     #$SIGNFILE "${hash_algo}" "${key}" "${x509}" \
-    #    "/lib/modules/$(uname -r)/misc/vmmon.ko"
+    #    "/lib/modules/$(uname -r)/misc/vboxnetadp.ko"
 
-    #$SIGNFILE "${hash_algo}" "${key}" "${x509}" \
-    #    "/lib/modules/$(uname -r)/misc/vmnet.ko"
+    $SIGNFILE "${hash_algo}" "${key}" "${x509}" \
+        "/lib/modules/$(uname -r)/misc/vmmon.ko"
+
+    $SIGNFILE "${hash_algo}" "${key}" "${x509}" \
+        "/lib/modules/$(uname -r)/misc/vmnet.ko"
 
 }
 

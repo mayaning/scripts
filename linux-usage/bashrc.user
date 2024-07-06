@@ -54,7 +54,7 @@ PATH=/home/mayaning/.cargo/bin:${PATH}
 export PATH
 
 # Golang 工作目录
-GOPATH=$HOME/Apps/Golang
+GOPATH=$HOME/.local/Golang
 export GOPATH
 
 # fzf

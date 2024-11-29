@@ -34,8 +34,10 @@ gnome-screenshot -caf "$IMAGE_NAME"
 # 判断截图成功才对截图进行编辑，有可能Step 1并未真正进行截图(比如按Esc退出了)
 if [ -e "$IMAGE_NAME" ]
 then 
-    # Step 2: 使用drawing打开截图，进行编辑(添加文件，箭头等)
+    # Step 2: 将原始图片复制到粘贴板
+    xclip -selection clipboard -t image/png "$IMAGE_NAME"
+    # Step 3: 使用drawing打开截图，进行编辑(添加文件，箭头等)
     drawing "$IMAGE_NAME"
-    # Step 3: 将截图后的图片复制到粘贴板
+    # Step 4: 将截图后的图片复制到粘贴板
     xclip -selection clipboard -t image/png "$IMAGE_NAME"
 fi

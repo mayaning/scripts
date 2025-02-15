@@ -77,3 +77,6 @@ git config --global i18n.commitencoding utf-8
 
 # 设置长期存储密码
 git config --global credential.helper store
+
+# 设置启用长文件名支持
+git config --global core.longpaths true

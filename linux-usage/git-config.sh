@@ -80,3 +80,6 @@ git config --global credential.helper store
 
 # 解决git在windows中报错：error:invalid path
 git config --global core.protectNTFS false
+
+# 设置启用长文件名支持
+git config --global core.longpaths true

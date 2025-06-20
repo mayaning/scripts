@@ -77,3 +77,6 @@ git config --global i18n.commitencoding utf-8
 
 # 设置长期存储密码
 git config --global credential.helper store
+
+# 解决git在windows中报错：error:invalid path
+git config --global core.protectNTFS false

@@ -4,18 +4,15 @@
     ],
     "rpm_depends":[
         "net-tools", "vim", "telnet", "python",  "fcitx5", "fcitx5-configtool",
-        "fcitx5-chinese-addons", "terminator", "thunderbird", "drawing", "meld",
-        "wireshark", "clang", "clang-libs", "clang-devel","remmina-plugins-rdp",
-        "boost", "boost-devel", "cmake", "python2-devel", "python3-devel", 
+        "fcitx5-chinese-addons", "thunderbird",  "meld",
+        "clang", "clang-libs", "clang-devel","remmina-plugins-rdp",
+        "boost", "boost-devel", "cmake",  "python3-devel", 
         "golang", "trash-cli", "pwgen", "gnome-tweak-tool",
         "gnome-shell-extension-user-theme","gnome-shell-extension-dash-to-dock",
         "gnome-shell-extension-topicons-plus","sshuttle", "samba", "screen", 
         "pandoc", "lsyncd", "podman", "buildah","libvirt","qemu-kvm",
         "virt-manager","libpcap-devel","libuuid-devel",
-        "python3-netifaces","python3-tornado","python3-zmq", 
-        "gnome-extensions-app","libXrender-devel", "libXtst-devel", 
-        "java-latest-openjdk", "java-latest-openjdk-static-libs", "geany", 
-        "fzf","bat", "the_silver_searcher", "ripgrep", "perl", "neovim", 
-        "python3-neovim.noarch", "touchegg"
+        "gnome-extensions-app", "java-latest-openjdk", "java-latest-openjdk-static-libs",
+        "fzf","bat", "the_silver_searcher", "ripgrep", "perl"
     ]
 }

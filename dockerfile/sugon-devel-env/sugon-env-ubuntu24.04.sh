@@ -30,10 +30,10 @@ SUGON_ENV_IMAGE_TAG="latest"
 
 kernel_version=6.8.0-31
 ctags_version=6.2.0
-clangd_version=21.1.8
-nodejs_version=v24.13.0
-golang_version=1.25.6
-tmux_version=3.6a
+clangd_version=23.1.0
+nodejs_version=v24.22.0
+golang_version=1.27.3
+tmux_version=3.7c
 
 function install_depends_packages()
 {
@@ -155,7 +155,7 @@ function setup_tmux()
 
 function build_base_image()
 {
-    local container=$(buildah from ubuntu:24.04)
+    local container=$(buildah from --network host ubuntu:24.04)
     buildah config -e DEBIAN_FRONTEND=noninteractive $container
 
     echo "Build base image: install depend packages"
@@ -186,7 +186,7 @@ function download_depend_software()
 
 function build_sugon_dev_image()
 {
-    local container=$(buildah from $BASE_IMAGE_NAME:$BASE_IMAGE_TAG)
+    local container=$(buildah from --network host $BASE_IMAGE_NAME:$BASE_IMAGE_TAG)
 
     # Labels are part of the "buildah config" command
     buildah config --label maintainer="mayaning<mayaning4coding@163.com>" $container

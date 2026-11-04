@@ -174,12 +174,24 @@ function download_depend_software()
 
     pushd assets
 
-    wget https://github.com/universal-ctags/ctags/releases/download/v${ctags_version}/universal-ctags-${ctags_version}.tar.gz
-    wget https://github.com/clangd/clangd/releases/download/${clangd_version}/clangd-linux-${clangd_version}.zip
-    wget https://nodejs.org/dist/${nodejs_version}/node-${nodejs_version}-linux-x64.tar.xz
-    wget https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz
-    wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-    wget https://github.com/tmux/tmux/releases/download/${tmux_version}/tmux-${tmux_version}.tar.gz
+    [[ -f universal-ctags-${ctags_version}.tar.gz ]] || \
+        wget -O universal-ctags-${ctags_version}.tar.gz \
+        https://github.com/universal-ctags/ctags/releases/download/v${ctags_version}/universal-ctags-${ctags_version}.tar.gz
+    [[ -f clangd-linux-${clangd_version}.zip ]] || \
+        wget -O clangd-linux-${clangd_version}.zip \
+        https://github.com/clangd/clangd/releases/download/${clangd_version}/clangd-linux-${clangd_version}.zip
+    [[ -f node-${nodejs_version}-linux-x64.tar.xz ]] || \
+        wget -O node-${nodejs_version}-linux-x64.tar.xz \
+        https://nodejs.org/dist/${nodejs_version}/node-${nodejs_version}-linux-x64.tar.xz
+    [[ -f go${golang_version}.linux-amd64.tar.gz ]] || \
+        wget -O go${golang_version}.linux-amd64.tar.gz \
+        https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz
+    [[ -f nvim-linux-x86_64.tar.gz ]] || \
+        wget -O nvim-linux-x86_64.tar.gz \
+        https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+    [[ -f tmux-${tmux_version}.tar.gz ]] || \
+        wget -O tmux-${tmux_version}.tar.gz \
+        https://github.com/tmux/tmux/releases/download/${tmux_version}/tmux-${tmux_version}.tar.gz
 
     popd
 }

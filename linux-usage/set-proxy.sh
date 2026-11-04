@@ -27,9 +27,9 @@
 # @date 2021-06-16
 #
 
-HTTP_PROXY="http://127.0.0.1:7890"
-HTTPS_PROXY="http://127.0.0.1:7890"
-SOCKS_PROXY="socks5://127.0.0.1:7891"
+HTTP_PROXY="http://127.0.0.1:7897"
+HTTPS_PROXY="http://127.0.0.1:7897"
+SOCKS_PROXY="socks5://127.0.0.1:7897"
 
 function set_git_proxy()
 {
